@@ -1,4 +1,16 @@
 var defaultApi = "Nexmo";
+var defaultGw = "lo";
+
+var gws = [
+	{
+		"name": "iii",
+		"url": "http://140.92.26.36/api/gw"
+	},
+	{
+		"name": "lo",
+		"url": "http://localhost:8080"
+	}
+];
 
 var uris = [
 	{

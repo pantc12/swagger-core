@@ -4,7 +4,10 @@ function zoom(ele) {
     console.log('area element id = ' + id);
   }
 
+  
+
 $(function() {
+  
 
 	// Helper function for vertically aligning DOM elements
 	// http://www.seodenver.com/simple-vertical-align-plugin-for-jquery/
@@ -1652,7 +1655,8 @@ headerParams["X-uri"] = this.invocationUrl;
 //Hack By Jim Lin
 //      url: this.invocationUrl,
         //url: "http://140.92.26.36/api/gw",
-        url: "http://localhost:8080",
+        //url: "http://localhost:8080",
+        url: gwurl,
 //End of Hack
         headers: headerParams,
         data: bodyParam,
