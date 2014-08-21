@@ -1,0 +1,24 @@
+var defaultApi = "Nexmo";
+
+var uris = [
+	{
+		"name":"Nexmo",
+		"url": "http://localhost/apis/nexmo/api-docs",
+		"icon": "images/logo_nexmo.png"
+	},
+	{
+		"name": "Plurk",
+		"url": "http://localhost/apis/plurk/api-docs",
+		"icon": "images/logo_plurk.png"
+	},
+	{
+		"name":"HipChat",
+		"url": "http://localhost/apis/hipchat/api-docs",
+		"icon": "images/logo_hipchat.png"
+	},
+	{
+		"name": "FB-Graph",
+		"url": "http://localhost/apis/fb-graph/api-docs",
+		"icon": "images/logo_fb.png"
+	}
+];

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Swagger UI</title>
+        <meta charset="utf8">
+        <link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+        <link href='css/highlight.default.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='css/jquery-ui.css' media='screen' rel='stylesheet' type='text/css'/>
+        <script type="text/javascript" src="lib/shred.bundle.js"></script>
+        <script src='lib/jquery-1.10.2.js' type='text/javascript'></script>
+        <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+        <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+        <script src='lib/handlebars-1.0.0.js' type='text/javascript'></script>
+        <script src='lib/underscore-min.js' type='text/javascript'></script>
+        <script src='lib/backbone-min.js' type='text/javascript'></script>
+        <script src='lib/swagger.js' type='text/javascript'></script>
+        <script src='lib/jquery-ui.js' type='text/javascript'></script>
+        <script src='swagger-ui.js' type='text/javascript'></script>
+        <script src='lib/highlight.7.3.pack.js' type='text/javascript'></script>
+        <script src='apis.json' type='text/javascript'></script>
+        <script type="text/javascript">
+            for(i=0;i<uris.length;i++){
+                if(uris[i].name == defaultApi){
+                    var defaultUrl = uris[i].url;
+                }
+            }
+            $(function () {
+            window.swaggerUi = new SwaggerUi({
+            url: defaultUrl,
+            dom_id: "swagger-ui-container",
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+            onComplete: function(swaggerApi, swaggerUi){
+            log("Loaded SwaggerUI")
+            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+            },
+            onFailure: function(data) {
+            log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "none"
+            });
+
+            $('#input_apiKey').change(function() {
+            var key = $('#input_apiKey')[0].value;
+            log("key: " + key);
+            if(key && key.trim() != "") {
+            log("added key " + key);
+            window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
+            }
+            })
+            window.swaggerUi.load();
+            });
+
+            function load(id){
+                apiurl = $('#'+id).data("url");
+                $("#input_baseUrl").val(apiurl);
+                $("#explore").click();
+            }
+
+            $(document).ready(function()
+            {
+                $(".apis").click(function()
+                {
+                    var X=$(this).attr('id');
+                    if(X==1) {
+                        $(".submenu").hide();
+                        $(this).attr('id', '0');
+                    } else {
+                        $(".submenu").show();
+                        $(this).attr('id', '1');
+                    }
+                });
+                //Mouse click on sub menu
+                $(".submenu").mouseup(function() {
+                    $(".submenu").hide();
+                    $(".apis").attr('id', '');
+                    return false
+                });
+                //Mouse click on my apis link
+                $(".apis").mouseup(function() {
+                    return false
+                });
+                //Document Click
+                $(document).mouseup(function() {
+                    $(".submenu").hide();
+                    $(".apis").attr('id', '');
+                });
+
+                for(var i = 0;i<uris.length;i++){
+                    $(".root").append("<li><a href=\"#\" id=\"api" + i + "\" data-url=\"" + uris[i].url + "\"><img src=\"" + uris[i].icon + "\" width=\"15\" height=\"15\">" + uris[i].name + "</a></li>");
+                }
+
+                $(".submenu ul li a").click(function() {
+                    load(this.id);
+                });
+            });
+        </script>
+        <style>
+            .dropdown {
+                color: #white;
+                margin: 3px -22px 0 0;
+                width: 170px;
+                position: relative;
+                text-align:left;
+            }
+            .submenu {
+                background: #547f00;
+                position: absolute;
+                top: -12px;
+                left: -20px;
+                z-index: 100;
+                width: 160px;
+                display: none;
+                margin-left: 10px;
+                padding: 40px 0 5px;
+                border-radius: 6px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+            }
+            .dropdown li a{
+                font-size: 1.5em;
+                color: white;
+                display: block;
+                font-family: arial;
+                font-weight: bold;
+                padding: 6px 15px;
+                cursor: pointer;
+                text-decoration:none;
+                vertical-align: middle;
+            }
+            .dropdown li a:hover {
+                font-size: 1.5em;
+                background:#155FB0;
+                color: #FFFFFF;
+                text-decoration: none;
+                vertical-align: middle;
+            }
+            a.apis {
+                font-size: 0.9em;
+                font-weight: bold;
+                line-height: 16px;
+                color: white;
+                position: absolute;
+                z-index: 110;
+                display: block;
+                padding: 10px 0 0 10px;
+                height: 28px;
+                width: 150px;
+                margin: -10px 0 0 -10px;
+                text-decoration: none;
+                background-color: #547f00;
+                cursor:pointer;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                -o-border-radius: 4px;
+                -ms-border-radius: 4px;
+                -khtml-border-radius: 4px;
+                border-radius: 4px;
+                text-align: center;
+            }
+            .root {
+                list-style:none;
+                margin:0px;
+                padding:0px;
+                font-size: 11px;
+                padding: 11px 0 0 0px;
+                border-top:1px solid #dedede;
+                width: 160px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id='header'>
+            <div class="swagger-ui-wrap">
+                <a id="logo" href="http://swagger.wordnik.com">swagger</a>
+                <form id='api_selector'>
+                    <div class="dropdown">
+                        <a class="apis" href="#">APIs ▼</a>
+                        <div class="submenu">
+                            <ul class="root">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
+                    <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+                    <div class='input'><a id="explore" href="#">Explore</a></div>
+                </form>
+            </div>
+        </div>
+
+        <div id="message-bar" class="swagger-ui-wrap">
+        &nbsp;
+        </div>
+
+        <div id="swagger-ui-container" class="swagger-ui-wrap">
+        </div>
+
+        <div id="s">
+        </div>
+        <div id="ss">
+        </div>
+    </body>
+</html>
