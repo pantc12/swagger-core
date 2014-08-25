@@ -1645,19 +1645,37 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
       log(bodyParam);
       this.invocationUrl = this.model.supportHeaderParams() ? (headerParams = this.model.getHeaderParams(map), this.model.urlify(map, false)) : this.model.urlify(map, true);
 
-//Hack By Jim Lin
-headerParams["X-uri"] = this.invocationUrl;
-//End of Hack
+      // Hack by Jim Lin: add 'APIuri' header for upload file                                                                                                                        
+      //headerParams["APIuri"] = this.invocationUrl;                                                                                                                                 
+      var jim_scheme = this.invocationUrl.split("/")[0].replace(":","");                                                                                                             
+      var jim_host = this.invocationUrl.split("/")[2];                                                                                                                               
+      var jim_path = this.invocationUrl.replace(jim_scheme + "://" + jim_host,"");                                                                                                   
+      var jim_port = 0;                                                                                                                                                              
+      if ( jim_host.indexOf(":") == -1 ) {                                                                                                                                           
+        if ( jim_scheme == "https" ) {                                                                                                                                               
+          jim_port = 443;                                                                                                                                                                
+        }                                                                                                                                                                                
+        else {                                                                                                                                                                           
+          jim_port = 80;                                                                                                                                                                 
+        }                                                                                                                                                                                
+      }                                                                                                                                                                              
+      else {                                                                                                                                                                         
+        jim_port = jim_host.split(":")[1];                                                                                                                                           
+        jim_host =  jim_host.split(":")[0];                                                                                                                                              
+      }                                                                                                                                                                              
+      var jim_url = gwurl + jim_scheme + "/" + jim_host + "/" + jim_port + jim_path;                                                                             
+      // End of Hack
+
 
       $(".request_url", $(this.el)).html("<pre>" + this.invocationUrl + "</pre>");
       obj = {
         type: this.model.method,
-//Hack By Jim Lin
-//      url: this.invocationUrl,
-        //url: "http://140.92.26.36/api/gw",
-        //url: "http://localhost:8080",
-        url: gwurl,
-//End of Hack
+        //Hack By Jim Lin
+        //      url: this.invocationUrl,
+                //url: "http://140.92.26.36/api/gw",
+                //url: "http://localhost:8080",
+                url: jim_url,
+        //End of Hack
         headers: headerParams,
         data: bodyParam,
         dataType: 'json',
