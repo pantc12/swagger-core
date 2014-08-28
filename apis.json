@@ -1,4 +1,4 @@
-var defaultApi = "FB-Graph";
+var defaultApi = "Google-Places";
 var defaultGw = "iii";
 
 
@@ -34,5 +34,15 @@ var uris = [
 		"name": "FB-Graph",
 		"url": "/apis/fb-graph/api-docs",
 		"icon": "images/logo_fb.png"
+	},
+	{
+		"name": "Pinterest",
+		"url": "/apis/pinterest/api-docs",
+		"icon": "images/logo_pinterest.png"
+	},
+	{
+		"name": "Google-Places",
+		"url": "/apis/google/places/api-docs",
+		"icon": "images/logo_google_places.png"
 	}
 ];
