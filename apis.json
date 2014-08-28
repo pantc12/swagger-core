@@ -1,5 +1,5 @@
 var defaultApi = "Google-Places";
-var defaultGw = "iii";
+var defaultGw = "lo";
 
 
 //gws server url end with slash
